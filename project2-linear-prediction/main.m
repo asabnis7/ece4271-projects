@@ -7,7 +7,8 @@ max_weeks = length(weeks);
 date = djiaw(:,1);
 djia = djiaw(:,2);
 N = 520;
-%% a
+
+% a
 figure
 plot(date,djia)
 datetick('x','yyyy-mmm-dd')
@@ -35,12 +36,13 @@ invest_interest = invest_interest*(1+interest);
 invest_seq_interest = [invest_seq_interest invest_interest];
 apr_needed_a = (nthroot(invest_hold/initial_invest,max_weeks)-1)*52;
 
-%% b
+% b
 start_week = 1;
 x = djia(start_week:N);
 p = 3; r = 0;
 [a, ~,~,X] = covpred(x, p, r);
-%% c
+
+% c
 xhat1 = -X*a(2:end);
 e_1 = x(p+1+r:end) - xhat1;
 xhat2 = -filter(a(2:end),1,x(1:end));
@@ -67,7 +69,8 @@ legend('xhat1 error','xhat2 error')
 title('xhat and xhat2 error')
 xlabel('date')
 ylabel('MSE')
-%% d
+
+% d
 A = {};E = [];r=0;
 p_arr=1:10;
 start_week = 1;
@@ -85,7 +88,7 @@ title('Linear Prediction MSE vs order')
 xlabel('order')
 ylabel('MSE')
 
-%% e
+% e
 p=10;r=0;
 start_week = 1;
 x = djia(start_week:N);
@@ -129,7 +132,8 @@ apr_needed_hold_e = (nthroot(invest_hold_e/initial_invest,N)-1)*52;
 apr_needed_interest_e = (nthroot(invest_interest_e/initial_invest,N)-1)*52;
 apr_needed_djia_e = (nthroot(invest_djia_e/initial_invest,N)-1)*52;
 apr_needed_pred_e = (nthroot(invest_pred_e/initial_invest,N)-1)*52;
-%% f
+
+% f
 p=10;r=0;
 start_week = max_weeks-N-p+1;
 x = djia(start_week:max_weeks-p);
@@ -174,52 +178,7 @@ apr_needed_interest_f = (nthroot(invest_interest_f/initial_invest,N)-1)*52;
 apr_needed_djia_f = (nthroot(invest_djia_f/initial_invest,N)-1)*52;
 apr_needed_pred_f = (nthroot(invest_pred_f/initial_invest,N)-1)*52;
 
-%% f2
-% p=10;r=0;
-% start_week = 1;
-% x = djia(start_week:N);
-% [a, ~,~,~] = covpred(x, p, r);
-% X_f =[];
-% initial_invest = 1000;
-% for w = max_weeks-N-p:max_weeks-p-1
-%     pred = djia(w+p:-1:w+1);
-%     pred_temp = - (pred')*(a(2:end));
-%     X_f = [X_f pred_temp];
-% end
-% invest_seq_hold_f = initial_invest;
-% invest_seq_interest_f = initial_invest;
-% invest_seq_djia_f = initial_invest;
-% invest_seq_pred_f = initial_invest;
-% invest_hold_f = initial_invest;
-% invest_interest_f = initial_invest;
-% invest_djia_f = initial_invest;
-% invest_pred_f = initial_invest;
-% for i=max_weeks-N+1:max_weeks
-%     invest_hold_f = invest_hold_f*djia(i)/djia(i-1);
-%     invest_interest_f = invest_interest_f*(1+interest);
-%     if(invest_djia_f*djia(i)/djia(i-1)>invest_djia_f*(1+interest))
-%         invest_djia_f = invest_djia_f*djia(i)/djia(i-1);
-%     else
-%         invest_djia_f = invest_djia_f*(1+interest);
-%     end
-%     
-%     if(invest_pred_f*X_f(i-max_weeks+N)/djia(i-1)>invest_pred_f*(1+interest))
-%         invest_pred_f = invest_pred_f*djia(i)/djia(i-1);
-%     else
-%         invest_pred_f = invest_pred_f*(1+interest);
-%     end
-%     
-%     invest_seq_hold_f = [invest_seq_hold_f invest_hold_f];
-%     invest_seq_interest_f = [invest_seq_interest_f invest_interest_f];
-%     invest_seq_djia_f = [invest_seq_djia_f invest_djia_f];
-%     invest_seq_pred_f = [invest_seq_pred_f invest_pred_f];
-% end
-% apr_needed_hold_f = (nthroot(invest_hold_f/initial_invest,N)-1)*52;
-% apr_needed_interest_f = (nthroot(invest_interest_f/initial_invest,N)-1)*52;
-% apr_needed_djia_f = (nthroot(invest_djia_f/initial_invest,N)-1)*52;
-% apr_needed_pred_f = (nthroot(invest_pred_f/initial_invest,N)-1)*52;
-
-%% g
+% g
 p=10;r=0;
 start_week = 1;
 x = djia(start_week:N);
@@ -319,7 +278,7 @@ apr_needed_interest_x = (nthroot(invest_interest_x/initial_invest,max_weeks)-1)*
 apr_needed_djia_x = (nthroot(invest_djia_x/initial_invest,max_weeks)-1)*52;
 apr_needed_pred_x = (nthroot(invest_pred_x/initial_invest,max_weeks)-1)*52;
 
-%% h
+% h
 p =10;r = 0;
 [a,~,~,X] = covpred(djia,p,r);
 xhat1 = -X*a(2:end);
@@ -331,7 +290,7 @@ G = sum(abs(e).^2);
 dtft_result = fft(djia); 	 
 X=fftshift(dtft_result);  	 	 
 
-%% plot without scale
+% plot without scale
 figure
 plot(w/pi,20*log10(abs(X)))
 hold on
@@ -350,7 +309,7 @@ ylabel('magnitude(db)')
 legend('DJIA','predictor')
 title('DJIA and predictor in the frequency domain (normalized)')
 
-%% plot with scale
+% plot with scale
 [h_g,~] = freqz(G,a,max_weeks/2);
 h_g = [-h_g(end:-1:1);h_g];
 figure
