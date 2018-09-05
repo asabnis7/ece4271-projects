@@ -1,3 +1,6 @@
+% Arjun Sabnis
+% ECE 4271 - Spring 2018
+
 function est_bits=receiver(signal)
 % Define data length
 samples = 5;
