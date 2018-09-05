@@ -1,3 +1,7 @@
+% Arjun Sabnis
+% ECE 4271 - Spring 2018
+% Market Prediction using RLE
+
 load('djiaw_2006.mat')
 initial_invest = 1000;
 r = 0.03; % annual interest
